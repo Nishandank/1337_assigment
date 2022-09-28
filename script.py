@@ -7,14 +7,14 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 def main():
     url: str = 'https://1337.tech'
     try:
-        traverse = TraverseWeb(domain=url, start_url=url)
+        traverse = TraverseWeb(domain=url, start_url=url, include_hashed_urls=True)
         print("Starting indexing")
         all_urls = traverse.run()
         print("Downloading started")
         downloader(all_urls,'https://1337.tech')
     except Exception as e:
         print(f"An error occured while running script {e}")
-        
+
 # Function to download all urls
 def downloader(urls,domain):
     # define thread pool to be used
