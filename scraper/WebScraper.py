@@ -16,7 +16,7 @@ class WebScraper():
     @classmethod
     def from_request(cls, url, domain, include_hashed_url, all_domains=False):
         try:
-            # incase the url contains . at the end like /css/app.css then we dont parse as it
+            # incase the url contains . at the end like /css/app.css then we dont parse as it doesnt contain links
             if Utils.is_html(url):
                 response = requests.get(url)
                 if response.ok:
@@ -40,6 +40,7 @@ class WebScraper():
         else:
             filtered_links = [link for link in all_links if link != '/']
 
+        # Filter based on domain to avoid external sites when crawling
         if not self.all_domains:
             filtered_links = [link for link in filtered_links if link.startswith(
                 '/') or link.startswith(self.domain)]
