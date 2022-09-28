@@ -5,13 +5,13 @@ from scraper.Utils import Utils
 from concurrent.futures import ThreadPoolExecutor,as_completed
 
 def main():
-    url: str = 'https://1337.tech'
+    domain: str = 'https://1337.tech'
     try:
-        traverse = TraverseWeb(domain=url, start_url=url, include_hashed_urls=True)
+        traverse = TraverseWeb(domain=domain, start_url=domain, include_hashed_urls=True)
         print("Starting indexing")
         all_urls = traverse.run()
         print("Downloading started")
-        downloader(all_urls,'https://1337.tech')
+        downloader(all_urls, domain)
     except Exception as e:
         print(f"An error occured while running script {e}")
 
@@ -27,15 +27,18 @@ def downloader(urls,domain):
     files_downloaded = 0
     active_jobs = []
     # download and save url using thread
-    for i in range(0,len(urls)):
-        url = urls[i]
-        job = executor.submit(download_and_save, url=url,root_path=root_path,domain=domain)
-        active_jobs.append(job)
+    # dont download hashed urls
+    none_hashed_urls = [url for url in urls if not Utils.is_hashed(url)]
+    for i in range(0,len(none_hashed_urls)):
+        url = none_hashed_urls[i]
+        if not Utils.is_hashed(url):
+            job = executor.submit(download_and_save, url=url,root_path=root_path,domain=domain)
+            active_jobs.append(job)
     
     # Update with progress on when download job is complete
     for active_job in as_completed(active_jobs):
         files_downloaded +=1
-        print_progress(len(urls),files_downloaded)
+        print_progress(len(none_hashed_urls),files_downloaded)
    
 def print_progress(total_files_to_download,file_downloaded_counter):
     print(f"[{'*'*file_downloaded_counter}] {file_downloaded_counter / total_files_to_download * 100 :.0f}%")
