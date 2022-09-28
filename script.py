@@ -5,7 +5,7 @@ from scraper.Utils import Utils
 from concurrent.futures import ThreadPoolExecutor,as_completed
 
 def main():
-    domain: str = 'https://1337.tech'
+    domain: str = "https://1337.tech"
     try:
         traverse = TraverseWeb(domain=domain, start_url=domain, include_hashed_urls=True)
         print("Starting indexing")

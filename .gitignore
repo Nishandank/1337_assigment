@@ -4,3 +4,4 @@ build/
 downloaded/
 *.egg-info
 __pycache__
+dist/
