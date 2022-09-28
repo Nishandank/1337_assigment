@@ -44,6 +44,8 @@ class WebScraper():
         if not self.all_domains:
             filtered_links = [link for link in filtered_links if link.startswith(
                 '/') or link.startswith(self.domain)]
-
+                
+        # incase if there is any href that doesn't start with / or http/https protocol
+        filtered_links = [link for link in filtered_links if link.startswith('/') or link.startswith('https://') or link.startswith('http://')]
     
         return filtered_links

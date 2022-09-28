@@ -11,6 +11,13 @@ class TestHtmlRegex(unittest.TestCase):
             html=html, domain="localhost", include_hashed_url=False, all_domains=False)
         self.assertEqual(web_scraper.get_links(), [
                          "/css/styles.css", "/testlinkworks"])
+    
+    def test_regex_all_domains(self):
+        html = read_file("web1.html")
+        web_scraper = WebScraper(
+            html=html, domain="localhost", include_hashed_url=False, all_domains=True)
+        self.assertEqual(web_scraper.get_links(), [
+                         "/css/styles.css", "/testlinkworks","https://google.com/test"])
 
 
 class TestTraverse(unittest.TestCase):

@@ -18,8 +18,8 @@ class TraverseWeb():
         web_scraped = WebScraper.from_request(url, self.domain, self.include_hashed_urls)
         if web_scraped is not None:
             links = web_scraped.get_links()
-            full_url_links = [f'{self.domain}{l}' if not l.startswith(
-                self.domain) else l for l in links]
+            full_url_links = [f'{self.domain}{link}' if not link.startswith(
+                self.domain) else link for link in links]
 
             for link in full_url_links:
                 if link not in self.all_parsed_urls:
